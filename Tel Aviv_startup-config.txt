@@ -1,0 +1,97 @@
+!
+version 12.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+ip dhcp excluded-address 200.100.50.1 200.100.50.0
+ip dhcp excluded-address 200.100.50.1
+ip dhcp excluded-address 200.100.50.1 200.100.50.2
+ip dhcp excluded-address 200.100.50.1 200.100.50.3
+!
+ip dhcp pool telaviv
+ network 200.100.50.0 255.255.255.224
+ default-router 200.100.50.1
+ dns-server 200.100.50.130
+ domain-name write
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 200.100.50.1 255.255.255.224
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet1/0
+ bandwidth 75
+ ip address 160.160.4.2 255.255.252.0
+!
+interface GigabitEthernet2/0
+ bandwidth 70
+ ip address 160.160.8.1 255.255.252.0
+!
+interface Serial3/0
+ ip address 160.160.24.3 255.255.252.0
+ encapsulation frame-relay
+ frame-relay interface-dlci 301
+ frame-relay interface-dlci 302
+ frame-relay interface-dlci 303
+ frame-relay interface-dlci 304
+ frame-relay lmi-type ansi
+!
+router eigrp 10
+ network 200.100.50.0 0.0.0.31
+ network 160.160.4.0 0.0.3.255
+ network 160.160.8.0 0.0.3.255
+ network 160.160.0.0
+ no auto-summary
+!
+router rip
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+

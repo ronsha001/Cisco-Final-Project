@@ -1,0 +1,94 @@
+!
+version 12.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+ip dhcp excluded-address 200.100.50.160 200.100.50.161
+!
+ip dhcp pool milano
+ network 200.100.50.160 255.255.255.224
+ default-router 200.100.50.161
+ dns-server 200.100.50.130
+ domain-name write
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 200.100.50.161 255.255.255.224
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet1/0
+ bandwidth 75
+ ip address 160.160.12.2 255.255.252.0
+!
+interface GigabitEthernet2/0
+ bandwidth 90
+ ip address 160.160.16.1 255.255.252.0
+!
+interface Serial3/0
+ ip address 160.160.24.1 255.255.252.0
+ encapsulation frame-relay
+ frame-relay interface-dlci 101
+ frame-relay interface-dlci 102
+ frame-relay interface-dlci 103
+ frame-relay interface-dlci 104
+ frame-relay lmi-type ansi
+!
+router eigrp 10
+ network 200.100.50.160 0.0.0.31
+ network 160.160.16.0 0.0.3.255
+ network 160.160.12.0 0.0.3.255
+ network 160.160.24.0 0.0.3.255
+ no auto-summary
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+

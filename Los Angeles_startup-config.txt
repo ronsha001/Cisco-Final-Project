@@ -1,0 +1,109 @@
+!
+version 12.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+ip dhcp excluded-address 200.100.50.64 200.100.50.65
+ip dhcp excluded-address 200.100.50.96 200.100.50.97
+!
+ip dhcp pool management
+ network 200.100.50.64 255.255.255.224
+ default-router 200.100.50.65
+ dns-server 200.100.50.130
+ domain-name write
+ip dhcp pool selling
+ network 200.100.50.96 255.255.255.224
+ default-router 200.100.50.97
+ dns-server 200.100.50.130
+ domain-name write
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.100
+ encapsulation dot1Q 100
+ ip address 200.100.50.65 255.255.255.224
+!
+interface GigabitEthernet0/0.200
+ encapsulation dot1Q 200
+ ip address 200.100.50.97 255.255.255.224
+!
+interface GigabitEthernet1/0
+ bandwidth 95
+ ip address 160.160.12.1 255.255.252.0
+!
+interface GigabitEthernet2/0
+ bandwidth 65
+ ip address 160.160.8.2 255.255.252.0
+!
+interface Serial3/0
+ ip address 160.160.24.2 255.255.252.0
+ encapsulation frame-relay
+ frame-relay interface-dlci 201
+ frame-relay interface-dlci 202
+ frame-relay interface-dlci 203
+ frame-relay interface-dlci 204
+ frame-relay lmi-type ansi
+!
+router eigrp 10
+ network 200.100.50.96 0.0.0.31
+ network 200.100.50.64 0.0.0.31
+ network 160.160.8.0 0.0.3.255
+ network 160.160.12.0 0.0.3.255
+ network 160.160.24.0 0.0.3.255
+ no auto-summary
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+no cdp run
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+
